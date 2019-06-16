@@ -48,7 +48,6 @@ public class CamControl : MonoBehaviour {
             {
                 Quaternion yaw = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * HorizontalSense, Vector3.up);
                 Quaternion pitch = Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * VerticalSense, Vector3.left);
-                transform.LookAt(player.transform);
                 offset = yaw * offset;
                 offset = pitch * offset;
                 
@@ -58,5 +57,6 @@ public class CamControl : MonoBehaviour {
         //apply all transforms with a lerp
         Vector3 desiredPos = player.transform.position + offset;
         transform.position = Vector3.Slerp(transform.position, desiredPos, Time.deltaTime * NaturalLag);
+        if (MouseRotate && Orbital) { transform.LookAt(player.transform); } //needs to be applied after if enabled
     }
 }
